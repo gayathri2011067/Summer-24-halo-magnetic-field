@@ -3,6 +3,7 @@ implicit none
   
 
   !GRID PARAMETERS
+
   integer,parameter :: Nz = 51               !spatial resolution
   integer,parameter :: Nt = 100000           !time resolution
 
@@ -11,6 +12,7 @@ implicit none
 
 
   !  CONSTANTS FOR UNIT CONVERSIONS
+
   double precision, parameter :: pi = 3.14156295358
   double precision, parameter :: g_mp =   1.67262158d-24
   double precision, parameter :: cm_kpc = 3.08567758d21
@@ -25,6 +27,7 @@ implicit none
 
 
   !  DIMENSIONLESS UNITS
+  
   double precision, parameter :: eta = 1.
   double precision, parameter :: h =  1.
   double precision, parameter :: B0 =  1.
