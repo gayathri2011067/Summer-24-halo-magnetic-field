@@ -1,4 +1,4 @@
-program save_eta_fz
+program run_all
 
     use parameters
     use time_grid
@@ -8,11 +8,15 @@ program save_eta_fz
     use omega_profile
     use alpha_profile
     use initial_field
+    use spatial_derivatives
+    use equations
+    use timestepping
   
     implicit none
     
-    integer :: i
-    character(len=20) :: filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,B_z_ini_file
+    integer :: i, j
+    character(len=20) :: filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,&
+    B_r_final_file,B_phi_final_file, time_file
 
     ! Call subroutine to construct the physical grid
     call construct_grid
@@ -31,6 +35,10 @@ program save_eta_fz
     alphafile= 'alpha_values.txt'
     Br_ini_file='Br_ini.txt'
     B_phi_ini_file='B_phi_ini.txt'
+    B_r_final_file='Br_final.txt'
+    B_phi_final_file='B_phi_final.txt'
+    time_file='time.txt'
+
 
 
 
@@ -41,6 +49,9 @@ program save_eta_fz
     open(unit=19, file=alphafile)
     open(unit=20, file=Br_ini_file)
     open(unit=21, file=B_phi_ini_file)
+    open(unit=22, file=B_r_final_file)
+    open(unit=23, file=B_phi_final_file)
+    open(unit=24, file=time_file)
     ! Write the values to the file
     do i = 1, nx
         write(10, '(F12.8)') eta_fz(i)
@@ -49,6 +60,7 @@ program save_eta_fz
         write(19, '(F12.8)') alpha_fz(i)
         write(20, '(F12.8)') B_r(i)
         write(21, '(F12.8)') B_phi(i)
+
     end do
 
     ! Close the file
@@ -65,6 +77,20 @@ program save_eta_fz
     print *, 'alpha values have been saved to ', alphafile
     print *, 'Br_ini values have been saved to ', Br_ini_file
     print *, 'B_phi_ini values have been saved to ', B_phi_ini_file
+    
 
+  call field_initialization
+  do i = 1, 1 ! for n1 iterations
+    do j = 1, 10 ! for n2 time steps
+       call RK4
+    end do
+    write (22, '(F12.8)') B_r
+    write (23, '(F12.8)') B_phi
+    write (24, '(F12.8)') t
+  end do
 
-end program save_eta_fz
+    close(22)
+    close(23)
+    close(24)
+
+end program run_all

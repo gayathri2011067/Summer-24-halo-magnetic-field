@@ -8,7 +8,7 @@ module initial_field
 !
   implicit none
 !
-  double precision, dimension(nx) :: B_r, B_phi
+  double precision, dimension(nx) :: B_r, B_phi, dBr, d2Br, dBphi, d2Bphi
   
 
 
