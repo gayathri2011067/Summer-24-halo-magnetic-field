@@ -28,8 +28,8 @@ contains
         end do
       case ('relative anti-symmetric')
         do i = 1, nxghost
-            fun(i) = 2*fun(nxghost+1) -fun(2*(nxghost+1)-i)  !Relative antisymmetric   (Specify alpha_m in ghost zones)
-            fun(nx+1-i) = 2*fun(nx+1-(nxghost+1)) - fun(nx+1-2*(nxghost+1)+i)
+            fun(i) = 2.*fun(nxghost+1) -fun(2*(nxghost+1)-i)  !Relative antisymmetric   (Specify alpha_m in ghost zones)
+            fun(nx+1-i) = 2.*fun(nx+1-(nxghost+1)) - fun(nx+1-2*(nxghost+1)+i)
         end do
       case default
         print *, 'Invalid boundary condition'

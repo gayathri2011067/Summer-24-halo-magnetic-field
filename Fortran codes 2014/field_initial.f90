@@ -16,7 +16,7 @@ module initial_field
 contains
     subroutine field_initialization
       
-        B_r = sin(pi*x)
+        B_r = 0.0001*(1.0-x**2.)*exp(-x**2.)
         B_phi = 0.0
 
     end subroutine field_initialization

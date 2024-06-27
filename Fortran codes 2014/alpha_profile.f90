@@ -10,8 +10,8 @@ module alpha_profile
   implicit none
 !
  
-  double precision, dimension(nx) :: alpha_cap
-  double precision, dimension(nx) :: alpha_fz,d_alpha,d2_alpha
+  double precision, dimension(nx) :: alpha_k
+  double precision, dimension(nx) :: alpha_cap,d_alpha_cap
 
  
 
@@ -19,11 +19,10 @@ module alpha_profile
 contains
     subroutine construct_alpha_profile
         character(len=30) :: ghost_zone_type2 = 'relative anti-symmetric'
-        alpha_cap = x 
-        alpha_fz = omega_fzr*(l**2/h)*(x/h)*exp(1/2 - (x/h)**2)*sqrt(2.)
-        call impose_boundary_conditions(alpha_fz, ghost_zone_type2)
-        call spatial_derivative(alpha_fz,6,d_alpha,d2_alpha)
-
+        alpha_cap = sin(pi*x)
+        alpha_k = alpha_0*alpha_cap
+        d_alpha_cap = cos(pi*x)
+  
 
     end subroutine construct_alpha_profile
 !

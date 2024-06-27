@@ -38,8 +38,8 @@ module timestepping
             k4r = dt*dBrdt
             k4phi = dt*dBphidt
 
-            B_r = B_r + (k1r + 2*k2r + 2*k3r + k4r)/6
-            B_phi = B_phi + (k1phi + 2*k2phi + 2*k3phi + k4phi)/6
+            B_r = B_r + (k1r + 2.*k2r + 2.*k3r + k4r)/6.
+            B_phi = B_phi + (k1phi + 2.*k2phi + 2.*k3phi + k4phi)/6.
 
             t = t + dt
         end subroutine RK4

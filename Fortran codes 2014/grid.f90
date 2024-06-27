@@ -3,12 +3,15 @@ module time_grid
   use parameters
   implicit none
   
-  integer, parameter :: n1= 800
-  integer, parameter :: n2= 1000  !long(1./dt)+1;	;Replot n1 times (after n2 timesteps)
-  double precision, parameter :: tsnap= 0.025/td0_Gyr !0.1d0  !Time between successive snapshots
-  double precision, parameter :: dt= tsnap/n2 !0.0339/30 !0.0339/3500 !1.d-3!1.d-4!5.d-4  !Timestep in units of td=h^2/C_etat
+  integer, parameter :: Nt= 5000  !points per diffusion time
+  integer, parameter :: n1= 500  !Number of snapshots
+  double precision, parameter :: total_t= 27. !unit diffusion time
+  integer :: n2 = total_t*Nt/n1!Number of timesteps between snapshots
+  double precision, parameter :: dt= 1./Nt !time step
   double precision :: t=0.
   double precision :: first=0.  !for Runge-Kutta routine
+
+
 end module time_grid
 
 
@@ -21,13 +24,13 @@ module physical_grid
   use time_grid
   implicit none
 
-  integer, parameter :: nxphys= 201  !Resolution in z
+  integer, parameter :: nxphys= 51 !Resolution in z
   integer, parameter :: nxghost= 3  !Number of ghost cells at each end in z
   integer, parameter :: nx= nxphys +2*nxghost  !Resolution in z
   double precision, dimension(nx) :: x
   double precision :: dx
 end module physical_grid
-
+!TODO_LATER: Make the number of gz automatic wrt fd order.
 
 !******************************************************************************************************************************************************
 
@@ -43,12 +46,13 @@ contains
     use physical_grid
 
     integer :: i
-    double precision, parameter :: len= 2.*h0  !Simulation domain (in units of h0)
+    double precision, parameter :: len= 2.*h  !Simulation domain (in units of h0)
     double precision, dimension(nx) :: spac
 
-    dx=len/(nxphys-1)  !x corresponds to z coordinate
+    dx=len/(nxphys-1)  !x corresponds to z
     do i=1,nx
-      x(i)= -(h0 +nxghost*dx) +(i-1)*dx
+      x(i)= -(h +nxghost*dx) +(i-1)*dx +0.01 !NOTE:+0.01 to avoid 0
+      x(i)= x(i)/h_dim !dimensionless now
     enddo
   endsubroutine construct_grid
 

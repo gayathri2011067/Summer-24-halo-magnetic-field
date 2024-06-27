@@ -17,7 +17,6 @@ module parameters
 
 !  SWITCHES
 
-  logical :: Damp=       .false.  !Set to 0 for FOSA, 1 for minimal tau approximation
   logical :: Alg_quench= .false.  !Works with dyn_quench=F; Set to 1 for algebraic quenching (alpha= alpha_k/(1+Emag/Beq^2))
   logical :: Dyn_quench= .true.  !Works with alg_quench=F; Set to 1 for dynamical quenching (d_alpha_m/dt eqn incl in sim)
   logical :: Alp_sin=    .true.  !Set to 1 to get a sinusoidal alpha profile; Set to 0 for a linear alpha profile.
@@ -78,7 +77,8 @@ module parameters
 !------------------------------------------------------------------------------------------------------------------
 !  ROTATION CURVE
   double precision, parameter :: r_om_kpc= 2.  !Relevant only if Om_Brandt =1; r_om is the characteristic radius of the Brandt profile in kpc
-  double precision, parameter :: om0_kmskpc= (1.+(r0_kpc/r_om_kpc)**2)**(1./2)*V0_kms/r0_kpc  !om0 of Brandt profile in physical units
+  double precision, parameter :: om0_kmskpc= 220. !value for omega
+  ! double precision, parameter :: om0_kmskpc= (1.+(r0_kpc/r_om_kpc)**2)**(1./2)*V0_kms/r0_kpc  !om0 of Brandt profile in physical units
   double precision, parameter :: om_kmskpc= om0_kmskpc/(1. +(r_kpc/r_om_kpc)**2)**(1./2)
   double precision, parameter :: G_kmskpc=-om0_kmskpc*(r_kpc/r_om_kpc)**2/(1. +(r_kpc/r_om_kpc)**2)**(3./2)
 !------------------------------------------------------------------------------------------------------------------
@@ -88,13 +88,17 @@ module parameters
 !------------------------------------------------------------------------------------------------------------------
 !  DIMENSIONLESS PARAMETERS
   double precision, parameter :: l= l_kpc/h0_kpc*h0
-  double precision, parameter :: h= h_kpc/h0_kpc*h0
+  double precision, parameter :: h= h0
+    ! double precision, parameter :: h= h_kpc/h0_kpc*h0
   double precision, parameter :: tau=(l/h0)**2/3  !tau in units of td=h^2/etat
   double precision, parameter :: tautilde=1.  !Ratio of tau (eddy turnover time) to correlation time of the turbulence
   double precision, parameter :: U0=U0_kms/h0_km*td0_s  !Vertical mean velocity in normalized units h0/td0; 
-  double precision, parameter :: G=G_kmskpc/km_kpc*td0_s
+  double precision, parameter :: G=-omega
+  !  double precision, parameter :: G=G_kmskpc/km_kpc*td0_s
 !  double precision, parameter :: R_omega= -18.75*25./26  !R_omega=Gh^2/etat
-  double precision, parameter :: R_omega= G*h**2/etat  !R_omega=Gh^2/etat
+  double precision, parameter :: R_omega= G*h**2/etat
+    double precision, parameter :: R_omega= G*h**2/etat  !R_omega=Gh^2/etat
+  !R_omega=Gh^2/etat
   double precision :: tau_mta=0.
 !  -18.75 corresponds to 25 km/s/kpc used in SSSB06. Value in Chamandy et al 2012 (paper I) is -18.75*25./26. 
 !  double precision, parameter :: R_alpha= 1.5  

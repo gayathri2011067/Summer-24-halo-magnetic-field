@@ -18,7 +18,7 @@ program run_all
     integer :: i, j
     character(len=20) :: filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,&
     
-    B_r_final_file,B_phi_final_file, time_file
+    B_r_final_file,B_phi_final_file, time_file, first_der,second_der
 
     ! Call subroutine to construct the physical grid
     call construct_grid
@@ -40,6 +40,8 @@ program run_all
     B_r_final_file='Br_final.txt'
     B_phi_final_file='B_phi_final.txt'
     time_file='time.txt'
+    first_der='first_derivative.txt'
+    second_der='second_derivative.txt'
 
 
 
@@ -47,17 +49,21 @@ program run_all
     ! Open the file for writing
     open(unit=10, file=filename)
     open(unit=17, file=xfile)
+    open(unit=18, file=omegafile)
     open(unit=19, file=alphafile)
     open(unit=20, file=Br_ini_file)
     open(unit=21, file=B_phi_ini_file)
     open(unit=22, file=B_r_final_file)
     open(unit=23, file=B_phi_final_file)
     open(unit=24, file=time_file)
+    open(unit=25, file=first_der)
+    open(unit=26, file=second_der)
     ! Write the values to the file
     do i = 1, nx
         write(10, '(F12.8)') eta_fz(i)
         write(17, '(F12.8)') x(i)
-        write(19, '(F12.8)') alpha_k(i)
+        write(18, '(F12.8)') omega_fzr(i)
+        write(19, '(F12.8)') alpha_fz(i)
         write(20, '(F12.8)') B_r(i)
         write(21, '(F12.8)') B_phi(i)
 
@@ -66,6 +72,7 @@ program run_all
     ! Close the file
     close(10)
     close(17)
+    close(18)
     close(19)
     close(20)
     close(21)
@@ -79,18 +86,15 @@ program run_all
     
 
   call field_initialization
-  do i = 1, 1 ! for n1 iterations
-    do j = 1, n2 ! for n2 time steps
-       call RK4
-    end do
-    write (22, '(F12.8)') B_r
-    write (23, '(F12.8)') B_phi
-    write (24, '(F12.8)') t
-  end do
+  call RK4
+    write(25, '(F12.8)') dBr
+    write(26, '(F12.8)') d2Br
 
     close(22)
     close(23)
     close(24)
+    close(25)
+    close(26)
   print*, 'n2=', n2
   print*, 'dt=', dt
   print*, 'Nt=', Nt
