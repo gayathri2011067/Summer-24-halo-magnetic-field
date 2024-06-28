@@ -38,8 +38,7 @@ end module physical_grid
 module make_a_grid
 
   implicit none
-
-contains
+  contains
   subroutine construct_grid
     use parameters
     use time_grid

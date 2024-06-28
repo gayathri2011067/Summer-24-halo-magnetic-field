@@ -81,22 +81,88 @@ program run_all
   call field_initialization
   ! print*, 'alpha_cap=', alpha_cap
   ! print*, 'x=', x
+  ! ************************************************************************
+  ! ! RK4 time stepping
+  ! do i = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !      call RK4
+  !     !  print*, 't=', t
+  !     !  print*, 'B_r=', B_r
+  !     !  print*, 'k1r=', k1r
+  !     !   print*, 'k2r=', k2r
+  !     !   print*, 'k3r=', k3r
+  !     !   print*, 'k4r=', k4r
+  !     !   print*, 'alpha_cap=', alpha_cap2
+  !   end do
+  !   print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  !RK4 without chain rule for derivatives
   do i = 1, n1 ! for n1 iterations
     do j = 1, n2 ! for n2 time steps
-       call RK4
-      !  print*, 't=', t
-      !  print*, 'B_r=', B_r
-      !  print*, 'k1r=', k1r
-      !   print*, 'k2r=', k2r
-      !   print*, 'k3r=', k3r
-      !   print*, 'k4r=', k4r
-      !   print*, 'alpha_cap=', alpha_cap2
+      call RK4_no_split
+      ! print*, 't=', t
+      ! print*, 'B_r=', B_r
+
     end do
-    print*, 'B_r=', B_r
+    ! print*, 'B_r=', B_r
     write (22, *) B_r
     write (23, *) B_phi
     write (24, *) t
   end do
+  ! ************************************************************************
+  ! Forward differencing for time-stepping
+  ! do i = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call forward_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  ! Backward differencing for time-stepping
+  ! do i = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call backward_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  ! Central differencing for time-stepping
+  ! old_Br = B_r
+  ! old_Bphi = B_phi
+  ! call RK4    !NOTE: using RK4 to get the first time step
+  ! first = 0.  !resetting
+  ! t=0.
+  ! do i = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call central_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+
+
 
     close(22)
     close(23)
