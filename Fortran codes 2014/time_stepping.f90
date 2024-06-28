@@ -12,15 +12,19 @@ module timestepping
     implicit none
     
 
+    double precision, dimension(nx) :: k1r,k1phi,k2r,k2phi,k3r,k3phi,k4r,k4phi
     contains
         subroutine RK4
-            double precision, dimension(nx) :: k1r,k1phi,k2r,k2phi,k3r,k3phi,k4r,k4phi
             character(len=30) :: ghost_zone_type = 'anti-symmetric'
             call impose_boundary_conditions(B_r, ghost_zone_type)
             call impose_boundary_conditions(B_phi, ghost_zone_type)
 
+            alpha_cap2 = alpha_cap/(1+(B_r**2+B_phi**2)/B_eq**2)
+
+
             call spatial_derivative(B_r,6,dBr,d2Br)
             call spatial_derivative(B_phi,6,dBphi,d2Bphi)
+            call spatial_derivative(alpha_cap2,6,d_alpha_cap,d2alpha_cap)
 
             call diff_equations(B_r,B_phi,dBr,dBphi,d2Br,d2Bphi)
             k1r = dt*dBrdt

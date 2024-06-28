@@ -8,7 +8,7 @@ module initial_field
 !
   implicit none
 !
-  double precision, dimension(nx) :: B_r, B_phi, dBr, d2Br, dBphi, d2Bphi
+  double precision, dimension(nx) :: B_r, B_phi, dBr, d2Br, dBphi, d2Bphi, B_eq
   
 
 
@@ -18,6 +18,7 @@ contains
       
         B_r = 0.0001*(1.0-x**2.)*exp(-x**2.)
         B_phi = 0.0
+        B_eq = exp(-radius/R - x**2./2.)
 
     end subroutine field_initialization
 !

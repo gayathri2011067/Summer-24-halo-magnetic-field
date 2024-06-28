@@ -46,13 +46,13 @@ contains
     use physical_grid
 
     integer :: i
-    double precision, parameter :: len= 2.*h  !Simulation domain (in units of h0)
+    double precision, parameter :: len= 2.*h  
     double precision, dimension(nx) :: spac
 
     dx=len/(nxphys-1)  !x corresponds to z
     do i=1,nx
       x(i)= -(h +nxghost*dx) +(i-1)*dx +0.01 !NOTE:+0.01 to avoid 0
-      x(i)= x(i)/h_dim !dimensionless now
+      x(i)= x(i) !dimensionless now
     enddo
   endsubroutine construct_grid
 

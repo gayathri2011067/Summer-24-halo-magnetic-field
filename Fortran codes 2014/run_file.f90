@@ -42,7 +42,7 @@ program run_all
     time_file='time.txt'
 
 
-
+   
 
     ! Open the file for writing
     open(unit=10, file=filename)
@@ -79,13 +79,23 @@ program run_all
     
 
   call field_initialization
-  do i = 1, 1 ! for n1 iterations
+  ! print*, 'alpha_cap=', alpha_cap
+  ! print*, 'x=', x
+  do i = 1, n1 ! for n1 iterations
     do j = 1, n2 ! for n2 time steps
        call RK4
+      !  print*, 't=', t
+      !  print*, 'B_r=', B_r
+      !  print*, 'k1r=', k1r
+      !   print*, 'k2r=', k2r
+      !   print*, 'k3r=', k3r
+      !   print*, 'k4r=', k4r
+      !   print*, 'alpha_cap=', alpha_cap2
     end do
-    write (22, '(F12.8)') B_r
-    write (23, '(F12.8)') B_phi
-    write (24, '(F12.8)') t
+    print*, 'B_r=', B_r
+    write (22, *) B_r
+    write (23, *) B_phi
+    write (24, *) t
   end do
 
     close(22)

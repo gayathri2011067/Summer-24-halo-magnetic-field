@@ -11,7 +11,7 @@ module alpha_profile
 !
  
   double precision, dimension(nx) :: alpha_k
-  double precision, dimension(nx) :: alpha_cap,d_alpha_cap
+  double precision, dimension(nx) :: alpha_cap,d_alpha_cap,d2alpha_cap, alpha_cap2
 
  
 

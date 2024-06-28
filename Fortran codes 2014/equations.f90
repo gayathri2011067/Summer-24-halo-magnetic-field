@@ -15,9 +15,9 @@ module equations
     contains
     subroutine diff_equations(B_r_dummy, B_phi_dummy, dBr_dummy, d2Br_dummy, dBphi_dummy, d2Bphi_dummy)
       double precision, intent(in), dimension(nx) :: B_r_dummy, B_phi_dummy, dBr_dummy, d2Br_dummy, dBphi_dummy, d2Bphi_dummy
-      dBrdt = R_alpha*B_phi_dummy*d_alpha_cap + R_alpha*alpha_cap*dBphi_dummy &
+      dBrdt = R_alpha*B_phi_dummy*d_alpha_cap + R_alpha*alpha_cap2*dBphi_dummy &
       + d2Br_dummy - R_U*U_z_cap*dBr_dummy - R_U*B_r_dummy*d_U_z_cap
-      dBphidt = R_omega*B_r_dummy + R_alpha*B_r_dummy*d_alpha_cap + R_alpha*alpha_cap*dBr_dummy &
+      dBphidt = R_omega*B_r_dummy + R_alpha*B_r_dummy*d_alpha_cap + R_alpha*alpha_cap2*dBr_dummy &
       + d2Bphi_dummy - R_U*U_z_cap*dBphi_dummy - R_U*B_phi_dummy*d_U_z_cap
     end subroutine diff_equations
 
