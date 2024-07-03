@@ -28,7 +28,7 @@ module physical_grid
   integer, parameter :: nxghost= 3  !Number of ghost cells at each end in z
   integer, parameter :: nx= nxphys +2*nxghost  !Resolution in z
   double precision, dimension(nx) :: x
-  double precision :: dx
+  double precision :: dx, alp, beta
 end module physical_grid
 !TODO_LATER: Make the number of gz automatic wrt fd order.
 
@@ -38,17 +38,22 @@ end module physical_grid
 module make_a_grid
 
   implicit none
+  integer :: i
   contains
   subroutine construct_grid
     use parameters
     use time_grid
     use physical_grid
 
-    integer :: i
+    ! integer :: i
+
     double precision, parameter :: len= 2.*h  
     double precision, dimension(nx) :: spac
 
     dx=len/(nxphys-1)  !x corresponds to z
+    alp=dt/dx**2  !alpha for finite difference scheme
+    beta= dt/dx !beta for fin diff 
+
     do i=1,nx
       x(i)= -(h +nxghost*dx) +(i-1)*dx +0.01 !NOTE:+0.01 to avoid 0
       x(i)= x(i) !dimensionless now

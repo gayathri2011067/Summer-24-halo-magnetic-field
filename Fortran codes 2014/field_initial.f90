@@ -5,6 +5,8 @@ module initial_field
   use physical_grid
   use make_a_grid
   use eta_profile
+  use alpha_profile
+  use velocity_profile
 !
   implicit none
 !
@@ -12,15 +14,14 @@ module initial_field
   double precision, dimension(nx) :: alpha_Br, alpha_Bphi, Uz_Br, Uz_Bphi,d_alpha_Br
   double precision, dimension(nx) :: d2_alpha_Br,d_alpha_Bphi,d2_alpha_Bphi,d_Uz_Br
   double precision, dimension(nx) :: d2_Uz_Br,d_Uz_Bphi,d2_Uz_Bphi, old_Br, old_Bphi
-  double precision, parameter :: alp=dt/dx**2  !alpha for finite difference scheme
-  double precision, parameter :: beta= dt/dx !beta for fin diff 
 
 
 
 ! 
 contains
     subroutine field_initialization
-      
+        call construct_alpha_profile
+        call construct_velocity_profile
         B_r = 0.0001*(1.0-x**2.)*exp(-x**2.)
         B_phi = 0.0
         B_eq = exp(-radius/R - x**2./2.)

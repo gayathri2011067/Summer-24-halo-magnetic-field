@@ -5,7 +5,7 @@ module spatial_derivatives
     use make_a_grid
 
     implicit none
-
+ 
 contains
 
     subroutine impose_boundary_conditions(fun, ghost_zone_type)

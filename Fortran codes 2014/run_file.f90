@@ -15,7 +15,7 @@ program run_all
   
     implicit none
 
-    integer :: i, j
+    integer :: kk, j
     character(len=20) :: filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,&
     
     B_r_final_file,B_phi_final_file, time_file
@@ -70,12 +70,11 @@ program run_all
     close(20)
     close(21)
 
-    print *, 'eta_fz values have been saved to ', filename
-    print *, 'z values have been saved to ', xfile
-    print *, 'omega values have been saved to ', omegafile
-    print *, 'alpha values have been saved to ', alphafile
-    print *, 'Br_ini values have been saved to ', Br_ini_file
-    print *, 'B_phi_ini values have been saved to ', B_phi_ini_file
+    ! print *, 'z values have been saved to ', xfile
+    ! print *, 'omega values have been saved to ', omegafile
+    ! print *, 'alpha values have been saved to ', alphafile
+    ! print *, 'Br_ini values have been saved to ', Br_ini_file
+    ! print *, 'B_phi_ini values have been saved to ', B_phi_ini_file
     
 
   call field_initialization
@@ -101,12 +100,59 @@ program run_all
   ! end do
   ! ************************************************************************
   !RK4 without chain rule for derivatives
-  do i = 1, n1 ! for n1 iterations
+  ! do kk = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call RK4_new
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+
+  !   end do
+  !   ! print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  ! Forward differencing for time-stepping
+  ! do kk = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call forward_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   ! print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  ! Backward differencing for time-stepping
+  ! do kk = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call backward_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   ! print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  ! Central differencing for time-stepping
+  old_Br = B_r
+  old_Bphi = B_phi
+  call RK4_new    !NOTE: using RK4 to get the first time step
+  first = 0.  !resetting
+  t=0.
+  do kk = 1, n1 ! for n1 iterations
     do j = 1, n2 ! for n2 time steps
-      call RK4_no_split
+      call central_difference
       ! print*, 't=', t
       ! print*, 'B_r=', B_r
-
+      ! print*, 'B_phi=', B_phi
     end do
     ! print*, 'B_r=', B_r
     write (22, *) B_r
@@ -114,64 +160,19 @@ program run_all
     write (24, *) t
   end do
   ! ************************************************************************
-  ! Forward differencing for time-stepping
-  ! do i = 1, n1 ! for n1 iterations
-  !   do j = 1, n2 ! for n2 time steps
-  !     call forward_difference
-  !     ! print*, 't=', t
-  !     ! print*, 'B_r=', B_r
-  !     ! print*, 'B_phi=', B_phi
-  !   end do
-  !   print*, 'B_r=', B_r
-  !   write (22, *) B_r
-  !   write (23, *) B_phi
-  !   write (24, *) t
-  ! end do
-  ! ************************************************************************
-  ! Backward differencing for time-stepping
-  ! do i = 1, n1 ! for n1 iterations
-  !   do j = 1, n2 ! for n2 time steps
-  !     call backward_difference
-  !     ! print*, 't=', t
-  !     ! print*, 'B_r=', B_r
-  !     ! print*, 'B_phi=', B_phi
-  !   end do
-  !   print*, 'B_r=', B_r
-  !   write (22, *) B_r
-  !   write (23, *) B_phi
-  !   write (24, *) t
-  ! end do
-  ! ************************************************************************
-  ! Central differencing for time-stepping
-  ! old_Br = B_r
-  ! old_Bphi = B_phi
-  ! call RK4    !NOTE: using RK4 to get the first time step
-  ! first = 0.  !resetting
-  ! t=0.
-  ! do i = 1, n1 ! for n1 iterations
-  !   do j = 1, n2 ! for n2 time steps
-  !     call central_difference
-  !     ! print*, 't=', t
-  !     ! print*, 'B_r=', B_r
-  !     ! print*, 'B_phi=', B_phi
-  !   end do
-  !   print*, 'B_r=', B_r
-  !   write (22, *) B_r
-  !   write (23, *) B_phi
-  !   write (24, *) t
-  ! end do
-  ! ************************************************************************
 
 
 
     close(22)
     close(23)
     close(24)
-  print*, 'n2=', n2
-  print*, 'dt=', dt
-  print*, 'Nt=', Nt
-  print*, 'n1=', n1
-  print*, 'total_t=', total_t
-  print*, 't=', t
-  print*, 'first=', first
+  ! print*, 'n2=', n2
+  ! print*, 'dt=', dt
+  ! print*, 'Nt=', Nt
+  ! print*, 'n1=', n1
+  ! print*, 'total_t=', total_t
+  ! print*, 't=', t
+  ! print*, 'first=', first
+    print *, 'File sucessfully run'
+
 end program run_all
