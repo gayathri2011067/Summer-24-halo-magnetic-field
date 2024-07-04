@@ -5,7 +5,7 @@ module alpha_profile
   use physical_grid
   use make_a_grid
   use omega_profile
-  use spatial_derivatives
+  ! use spatial_derivatives
 !
   implicit none
 !

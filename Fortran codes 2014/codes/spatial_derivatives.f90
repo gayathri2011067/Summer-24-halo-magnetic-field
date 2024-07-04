@@ -46,9 +46,9 @@ contains
     double precision, dimension(nx), intent(in) :: fun
     double precision, dimension(nx), intent(inout) :: first_derivative, second_derivative
     integer :: i
+
   
-  
-  
+   
 
   
     ! Compute finite difference derivatives

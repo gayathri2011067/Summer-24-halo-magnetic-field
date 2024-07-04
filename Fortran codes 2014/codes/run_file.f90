@@ -16,7 +16,7 @@ program run_all
     implicit none
 
     integer :: kk, j
-    character(len=20) :: filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,&
+    character(len=30) :: data_path, filename, xfile, omegafile, alphafile, Br_ini_file,B_phi_ini_file,&
     
     B_r_final_file,B_phi_final_file, time_file
 
@@ -31,20 +31,27 @@ program run_all
 
 
     ! Define the output file name
-    filename = 'eta_fz_values.txt'
-    xfile= 'z_values.txt'
-    omegafile= 'omega_values.txt'
-    alphafile= 'alpha_values.txt'
-    Br_ini_file='Br_ini.txt'
-    B_phi_ini_file='B_phi_ini.txt'
-    B_r_final_file='Br_final.txt'
-    B_phi_final_file='B_phi_final.txt'
-    time_file='time.txt'
+    ! data_path = '../data_files/'
+    filename =  'eta_fz_values.txt'
+    xfile=  'z_values.txt'
+    omegafile=  'omega_values.txt'
+    alphafile=  'alpha_values.txt'
+    Br_ini_file=  'Br_ini.txt'
+    B_phi_ini_file=  'B_phi_ini.txt'
+    B_r_final_file=  'Br_final.txt'
+    B_phi_final_file=  'B_phi_final.txt'
+    time_file=  'time.txt'
 
-
-   
 
     ! Open the file for writing
+    ! open(unit=10, file=trim(data_path) // filename)
+    ! open(unit=17, file=trim(data_path) // xfile)
+    ! open(unit=19, file=trim(data_path) // alphafile)
+    ! open(unit=20, file=trim(data_path) // Br_ini_file)
+    ! open(unit=21, file=trim(data_path) // B_phi_ini_file)
+    ! open(unit=22, file=trim(data_path) // B_r_final_file)
+    ! open(unit=23, file=trim(data_path) // B_phi_final_file)
+    ! open(unit=24, file=trim(data_path) // time_file)
     open(unit=10, file=filename)
     open(unit=17, file=xfile)
     open(unit=19, file=alphafile)
@@ -142,17 +149,31 @@ program run_all
   ! end do
   ! ************************************************************************
   ! Central differencing for time-stepping
-  old_Br = B_r
-  old_Bphi = B_phi
-  call RK4_new    !NOTE: using RK4 to get the first time step
-  first = 0.  !resetting
-  t=0.
-  do kk = 1, n1 ! for n1 iterations
+  ! old_Br = B_r
+  ! old_Bphi = B_phi
+  ! call RK4_new    !NOTE: using RK4 to get the first time step
+  ! first = 0.  !resetting
+  ! t=0.
+  ! do kk = 1, n1 ! for n1 iterations
+  !   do j = 1, n2 ! for n2 time steps
+  !     call central_difference
+  !     ! print*, 't=', t
+  !     ! print*, 'B_r=', B_r
+  !     ! print*, 'B_phi=', B_phi
+  !   end do
+  !   ! print*, 'B_r=', B_r
+  !   write (22, *) B_r
+  !   write (23, *) B_phi
+  !   write (24, *) t
+  ! end do
+  ! ************************************************************************
+  !RK3 implicit
+  do kk = 1, 1 ! for n1 iterations
     do j = 1, n2 ! for n2 time steps
-      call central_difference
+      call RK3_implicit
       ! print*, 't=', t
       ! print*, 'B_r=', B_r
-      ! print*, 'B_phi=', B_phi
+
     end do
     ! print*, 'B_r=', B_r
     write (22, *) B_r

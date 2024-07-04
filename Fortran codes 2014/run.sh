@@ -1,2 +1,5 @@
-gfortran -o run parameters_constants.f90 grid.f90 eta_profile.f90 omega_profile.f90 alpha_profile.f90 velocity_profile.f90 field_initial.f90 spatial_derivatives.f90 equations.f90 time_stepping.f90 run_file.f90 
+cd run_files
+gfortran -o run ../codes/parameters_constants.f90 ../codes/grid.f90 ../codes/spatial_derivatives.f90 ../codes/eta_profile.f90 ../codes/omega_profile.f90 ../codes/alpha_profile.f90 ../codes/velocity_profile.f90 ../codes/field_initial.f90 ../codes/equations.f90 ../codes/time_stepping.f90 ../codes/run_file.f90
 ./run
+python3 plot.py
+cd ..
