@@ -18,16 +18,16 @@ module velocity_profile
 contains
     subroutine construct_velocity_profile
         character(len=30) :: ghost_zone_type2 = 'relative anti-symmetric'
-        integer :: i
+        ! integer :: i
         
-        do i=1+nxghost+nxvacuum, 1 + nxghost + nxvacuum + nxphys !  CHANGED!
-            U_z_cap(i) = 1. - exp(-x(i)**2.)
-            U_z(i) = R_U*U_z_cap(i)
-            d_U_z_cap(i) = 1.
-        end do
-        ! U_z_cap = x
-        ! U_z = R_U*U_z_cap
-        ! d_U_z_cap = 1.
+        ! do i=1+nxghost+nxvacuum, 1 + nxghost + nxvacuum + nxphys !  CHANGED!
+        !     U_z_cap(i) = 1. - exp(-x(i)**2.)
+        !     U_z(i) = R_U*U_z_cap(i)
+        !     d_U_z_cap(i) = 1.
+        ! end do
+        U_z_cap = x/h     !CHANGE: /h is added, also old code above
+        U_z = R_U*U_z_cap
+        d_U_z_cap = 1.
 
     end subroutine construct_velocity_profile
 !

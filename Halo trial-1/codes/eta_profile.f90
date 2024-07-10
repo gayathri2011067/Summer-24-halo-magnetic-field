@@ -15,12 +15,12 @@ module eta_profile
 ! 
 contains
     subroutine construct_eta_profile
-        integer :: i
+        ! integer :: i
 
-        do i=1+nxghost+nxvacuum, 1 + nxghost + nxvacuum + nxphys !  CHANGED!
-            eta_fz(i)=eta_0*(1-eta_1*exp(-(x(i))**2))
-        end do
-        ! eta_fz=eta_0*(1-eta_1*exp(-(x)**2))
+        ! do i=1+nxghost+nxvacuum, 1 + nxghost + nxvacuum + nxphys !  CHANGED!
+        !     eta_fz(i)=eta_0*(1-eta_1*exp(-(x(i))**2))
+        ! end do
+        eta_fz=eta_0*(1-eta_1*exp(-(x)**2))
 
     end subroutine construct_eta_profile
 !
